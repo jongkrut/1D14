@@ -1,0 +1,41 @@
+<ion-view title="<a href='#/'>Boga Delivery</a>">
+
+<ion-nav-bar class="navbar">
+	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
+		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
+		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
+    </ion-nav-back-button>
+	
+	
+	<ion-nav-buttons side="right">
+		<a href="#/login" class="button-clear" ng-hide="logged_in" style="text-decoration:none">
+			<i class="ion-person icon-header"> Login</i>
+		</a>
+			
+		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
+			<i class="ion-person icon-header"></i>
+		</button>
+    </ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content style="background-color:#eee">
+
+
+<div class="item card resto_list" ng-repeat="outlet in outlets">
+    <a ng-href="#/restaurant/{{outlet.outlet_id}}/{{outlet.brand_id}}">
+    	<div style="width:100%;height:100px;background-color:white;background-repeat:no-repeat;background-size:cover" ng-style="{'background-image': 'url(img/brand_logo/{{outlet.brand_id}}-food-search.jpg)'}">
+    		<img ng-src="img/brand_logo/{{outlet.brand_id}}-logo.png" style="height:50px;margin-left:10px;margin-top:10px"/>
+		</div>
+		<div style="text-align:center;margin:10px 0">
+			<h2>{{outlet.outlet_name | outletname}}</h2>
+			<p>@ {{outlet.outlet_name | outletname:1}}</p>
+		</div>
+		<div style="text-align:center;background-color:#dbdbdb;color:#999;padding:5px 0">	
+			<i class="fa fa-clock-o"></i> 11:00 - 20:30
+		</div>
+	</a>
+</div>		  
+
+
+</ion-content>
+</ion-view>

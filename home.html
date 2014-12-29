@@ -1,0 +1,149 @@
+<ion-view title="<a href='#/'>Boga Delivery</a>">
+
+<ion-nav-bar class="navbar">
+
+	<ion-nav-buttons side="left">
+		<i class="ion-navicon-round" style="color:#fff;vertical-align:60%;cursor:pointer;font-size:20px" ng-click="toggleLeft()"></i>
+		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:-5px;cursor:pointer" ng-click="toggleLeft()"/>
+	</ion-nav-buttons>
+
+	<ion-nav-buttons side="right">
+		<a class="button-clear" ng-hide="logged_in" ng-href="#/login" style="text-decoration:none">
+			<i class="ion-person icon-header"> Login</i>
+		</a>
+			
+		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
+			<i class="ion-person icon-header"></i>
+		</button>
+	</ion-nav-buttons>
+</ion-nav-bar>
+
+
+<ion-content  style="background-color:#eee">
+
+	<div style="width:100%;float:left;text-align:center;margin-top:25px;float:left">
+		<img src="img/boga_logo.png" style="width:200px;"/>
+	</div>
+
+
+	<div ng-show="logged_in" ng-hide="newAddress">
+		<div class="find_loc">
+			<div style="width:200px;background-color:#faf7f9;padding:10px;">
+				Welcome Back
+				<br/><br/>
+				<span style="color:#c41920;font-size:20px;font-weight:bold">{{customer.customer_name}}</span>
+				<br/><br/>
+				<span ng-hide="defaultAddress==''">You are using <button ng-click="openModal()" class="button-clear" style="color:#c41920;font-weight:bold">{{defaultAddress.address_id}}</button> as your current search location.</span>
+			</div>
+		</div>
+		<div class="find_loc">
+			<a class="button button-assertive" style="width:200px;background-color:#c41920;font-size:12px;font-weight:bold" ng-click="toSearch()" ng-hide="defaultAddress==''">
+				<i class="icon ion-marker"></i> Find Restaurants
+			</a>
+		</div>
+		<div class="find_loc">
+			<span ng-hide="defaultAddress==''">or
+			<br/><br/></span>
+			<button class="button button-assertive" style="background-color:#666;border-color:#666;width:200px;font-size:12px;font-weight:bold" ng-click="newAddress=true">
+				<i class="icon ion-marker"></i> Create New Address
+			</button>
+		</div>
+	</div>
+
+	<div class="find_loc" ng-show="newAddress">
+		<div class="find_circle">
+			<div class="find_nearby" ng-click="toMap()">
+				<i class="icon ion-navigate"></i>
+			</div>
+			<div style="float:left;width:100%;text-align:center;margin-top:10px;font-weight:bold;font-size:18px">
+				Find Nearby<br/>
+			Restaurant</div>
+		</div>
+	</div>
+	<div class="find_loc" ng-show="newAddress">
+		or
+		<br/><br/>
+		<button class="button button-assertive" style="background-color:#c41920;font-size:12px;font-weight:bold"><i class="icon ion-marker"></i> Tell us your location</button>
+	</div>
+
+
+
+	<div class="find_loc" style="background-color:transparent">
+		<div style="font-size:12px;font-weight:bold;color:#c41920;">2014. Boga Group</div>
+	</div>
+
+</ion-content>
+</ion-view>
+
+
+<script id="chooseAddress-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Choose Your Address</h1>
+    </ion-header-bar>
+    <ion-content>
+    	<div class="list">
+			<ion-radio ng-repeat="item in addresses"
+                   ng-value="item.address_id" 
+                   ng-model="data.selected"       
+                   name="server-side"
+				   ng-switch on="item.address_type">
+					<addrType ng-switch-when="1">
+						<h2>Kantor</h2>
+						<p>	{{item.address_name}} <br/>
+							{{item.tower_division}} {{item.floor}} <br/>
+						    {{item.address_content}}
+							{{item.room_unit}}							
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="2">
+						<h2>Rumah</h2>
+						<p>	{{item.address_name}}
+						    {{item.address_content}}
+							{{item.room_unit}}							
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="3">
+						<h2>Apartment</h2>
+						<p>	{{item.address_name}} <br/>
+							{{item.tower_division}} {{item.floor}} {{item.room_unit}} <br/>
+						    {{item.address_content}}															
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="4">
+						<h2>Hotel</h2>
+						<p>	{{item.address_name}}
+						    {{item.floor}} {{item.room_unit}} <br/>
+						    {{item.address_content}}								
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="5">
+						<h2>Ruko/Rukan</h2>
+						<p> {{item.address_name}}
+						    {{item.floor}} {{item.room_unit}} <br/>
+							{{item.address_content}}					
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="6">
+						<h2>Kost</h2>
+						<p>	{{item.address_name}}
+						    {{item.floor}} {{item.room_unit}} <br/>
+							{{item.address_content}}								
+						</p>	
+					</addrType>
+				
+			</ion-radio>
+       	</div>
+		
+		
+		
+		
+    </ion-content>
+    <ion-footer-bar>
+    	<div class="button-bar">
+    		<button class="button button-calm" ng-click="closeModal()">Cancel</button>
+    		<button class="button button-balanced" ng-click="applyModal()">OK</button>
+    	</div>
+    </ion-footer-bar>
+  </ion-modal-view>
+</script>

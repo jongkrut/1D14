@@ -1,0 +1,72 @@
+<ion-view title="<a href='#/'>Boga Delivery</a>">
+
+<ion-nav-bar class="navbar">
+	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
+		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
+		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
+    </ion-nav-back-button>
+	
+	
+	<ion-nav-buttons side="right">
+		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
+			<i class="ion-person icon-header"></i>
+		</button>
+    </ion-nav-buttons>
+</ion-nav-bar>
+
+
+<ion-content style="background-color:#eee">
+
+	<div class="card padding assertive" ng-show="errorLogin==1">Invalid Username or Password</div>
+
+	<div class="list list-inset" ng-hide="do_login">
+		<form name="signin" novalidate>
+			<label class="item item-input">
+				<input type="email" placeholder="Username" name="email" ng-model="user.email" required />
+			</label>
+			<label class="item item-input">
+				<input type="password" placeholder="Password" ng-model="user.password" required />
+			</label>
+			<div class="button-bar">
+				<button class="button button-clear" style="border-right:1px solid #bebebe;color:#c41920;font-weight:bold">Forgot?</button>
+				<button class="button button-clear" style="color:#c41920;font-weight:bold" ng-click="doLogin(user)" ng-disabled="signin.$invalid">Login</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="card" style="text-align:center;" ng-hide="do_login">
+		<div class="padding" style="line-height:28px">
+			<span style="color:#c41920;font-weight:bold;font-size:15px">Don't have an account?</span><br/>
+			Sign up now, it's easy!
+		</div>
+		<div class="button-bar" style="border-top:1px solid #bebebe">
+				<button class="button button-clear" style="color:#c41920;font-weight:bold" ng-click="do_login=!do_login">Sign Up</button>
+		</div>
+	</div>
+
+	<div class="card list-inset" ng-show="do_login">
+		<form name="signup" novalidate>
+			<label class="item item-input">
+				<input type="text"  placeholder="Name" ng-model="register.cust_name" required />
+			</label>
+			<label class="item item-input">
+				<input type="email"  placeholder="Email" ng-model="register.email" required />
+			</label>
+			<label class="item item-input">
+				<input type="password" placeholder="Password" ng-model="register.password" required/>
+			</label>
+			<label class="item item-input">
+				<input type="tel" placeholder="Phone" ng-model="register.phone" required/>
+			</label>
+			<label class="item item-input">
+				<input type="tel" placeholder="Mobile" ng-model="register.mobile" required/>
+			</label>
+			<div class="button-bar">
+				<button class="button button-clear" style="color:#c41920;font-weight:bold;border-right:1px solid #bebebe;" ng-click="do_login=!do_login">Login</button>
+				<button class="button button-clear" ng-click="doSignUp(register)" style="border-right:1px solid #bebebe;color:#c41920;font-weight:bold" ng-disabled="signup.$invalid">Sign Up</button>
+			</div>
+		</form>
+	</div>
+
+</ion-content>
+</ion-view>

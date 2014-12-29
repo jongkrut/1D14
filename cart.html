@@ -1,0 +1,127 @@
+<script id="datetime-template.html" type="text/ng-template">
+	<ion-modal-view>
+		<ion-header-bar>
+			<h1 class="title">Please Select Date and Time</h1>
+		</ion-header-bar>
+    <ion-content>
+		<div style="text-align:center;width:100%;padding:10px 0;">{{data.datetime | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+		<datetimepicker data-ng-model="data.datetime" min-date="minDate" show-weeks="true" data-datetimepicker-config="{ minuteStep: 30 }"></datetimepicker>
+		<div class="button-bar" style="margin-top:20px">
+			<button ng-click="closeModal()" class="button button-calm">Immediate</button>
+			<button ng-click="saveModal()" class="button button-balanced">Save Future</button>
+		</div>
+    </ion-content>
+  </ion-modal-view>  	
+</script>
+
+<ion-view title="<a href='#/'>Boga Delivery</a>">
+
+<ion-nav-bar class="navbar">
+	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
+		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
+		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
+    </ion-nav-back-button>
+	
+
+	<ion-nav-buttons side="right">
+		<a href="#/login" class="button-clear" ng-hide="logged_in" style="text-decoration:none">
+			<i class="ion-person icon-header"> Login</i>
+		</a>
+			
+		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
+			<i class="ion-person icon-header"></i>
+		</button>
+    </ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content style="background-color:#eee">
+
+<div class="row" style="font-size:11px">
+	<div class="col col-33" style="border-right:1px solid #bdbdbd">
+		<strong style="font-size:14px">{{totalItems}}</strong><br/>
+		items in your order
+	</div>
+	<div class="col">
+		<strong style="font-size:14px">{{grandtotal | currency : 'Rp ' : 0}}</strong><br/>
+		total order amount incl. additional fees
+	</div>
+</div>
+
+<ion-list>
+	<ion-item ng-repeat="item in items" class="item-text-wrap" style="width:100%;font-size:12px;padding:0">
+			{{item.qty}}x 
+			
+				{{item.menu_name}} <span ng-show="item.size_id">({{item.size_id.size_name}})</span>
+
+				<div ng-repeat = "att in item.attr" style="font-style:italic;font-size:12px">
+					+ {{item.qty}} {{att.attribute_name}} | {{ item.qty*att.attribute_price | currency : ''}}
+				</div>
+				<div style="font-weight:bold" ng-hide="item.size_id">
+					{{item.menu_price * item.qty | currency : 'Rp ' : 0}}
+				</div>
+				<div style="font-weight:bold" ng-show="item.size_id">
+					{{item.size_id.size_price * item.qty | currency : 'Rp ' : 0}}
+				</div>
+			
+		</div>
+		<ion-option-button class="button button-positive" ng-click="editItem($index)" style="padding:0">
+	     	<i class="ion-compose"></i>
+	    </ion-option-button>
+	    <ion-option-button class="button button-info" ng-click="deleteItem($index)">	    	
+	    	<i class="ion-close-round"></i>
+	    </ion-option-button>
+	</ion-item>
+
+	<ion-item style="padding:0;font-size:12px">
+		<div class="row">
+			<div class="col col-10">
+			 	
+			</div>
+			<div class="col">
+				Tax &amp; Service Charge
+				<div style="font-weight:bold">
+					{{tax_service_charge * totalPrice / 100 | currency : 'Rp ' : 0}}
+				</div>
+			</div>
+		</div>
+	</ion-item>
+
+	<ion-item style="padding:0;font-size:12px">
+		<div class="row">
+			<div class="col col-10">
+			 </div>
+			<div class="col">
+				Delivery Fee
+				<div style="font-weight:bold">
+					{{delivery_fee | currency : 'Rp ' : 0}}
+				</div>
+			</div>
+		</div>
+	</ion-item>
+</ion-list>
+
+<div class="card" ng-show="min_hit">
+	<div class="item item-text-wrap" style="text-align:center">
+		<span ng-if="data.datetimetype == 1">Immediate - ASAP</span>
+		<span ng-if="data.datetimetype == 2">Future - {{data.datetime | date : 'yyyy-MM-dd HH:mm:ss'}}</span>
+	</div>
+</div>
+
+<div class="bar bar-dark padding" ng-hide="min_hit" ng-click="showAlert()" style="text-align:center">
+	<h1 class="title">Minimum Order {{min_transaction | currency : 'Rp ' : 0}}</h1>
+</div>
+
+
+<div class="button-bar" style="margin-top:25px" ng-show="min_hit">
+	<a class="button button-calm" ng-click="openModal()">
+		Delivery Time
+	</a>
+	<button class="button button-balanced"  ng-click="toCheckout()">
+		Checkout
+	</button>	
+</div>
+
+<div style="height:50px;width:100%"></div>
+
+</ion-content>
+</ion-view>

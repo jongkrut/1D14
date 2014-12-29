@@ -1,0 +1,10 @@
+<div class="cart-summary-container">
+	<div class="cart-summary-left"><a ng-href="#/cart/{{outlet_id}}/{{brand_id}}">
+		{{items}}<br/>
+		<span>items in your order</span></a>
+	</div>
+	<div class="cart-summary-right"><a ng-href="#/cart/{{outlet_id}}/{{brand_id}}">
+		{{prices | currency : 'Rp ' :0}}<br/>
+		<span>total price in your cart</span></a>
+	</div>
+</div>
