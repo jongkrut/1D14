@@ -7,9 +7,9 @@
     </ion-nav-back-button>
 	
 	<ion-nav-buttons side="right">
-		<button class="button-clear" ng-click="" style="color:#fff">
+		<a class="button-clear" href="#/new-address" style="color:#fff;font-size:16px">
 			New
-		</button>
+		</a>
     </ion-nav-buttons>
 </ion-nav-bar>
 
@@ -18,8 +18,50 @@
 
 <div class="list">
 
-	<div class="item" ng-repeat="addr in addresses">
-		{{addr.address_content}}
+	<div class="item" ng-repeat="item in addresses" ng-switch on="item.address_type">
+					<addrType ng-switch-when="1">
+						<h2>Kantor</h2>
+						<p>	{{item.address_name}} <br/>
+							{{item.tower_division}} {{item.floor}} <br/>
+						    {{item.address_content}}
+							{{item.room_unit}}							
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="2">
+						<h2>Rumah</h2>
+						<p>	{{item.address_name}}
+						    {{item.address_content}}
+							{{item.room_unit}}							
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="3">
+						<h2>Apartment</h2>
+						<p>	{{item.address_name}} <br/>
+							{{item.tower_division}} {{item.floor}} {{item.room_unit}} <br/>
+						    {{item.address_content}}															
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="4">
+						<h2>Hotel</h2>
+						<p>	{{item.address_name}}
+						    {{item.floor}} {{item.room_unit}} <br/>
+						    {{item.address_content}}								
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="5">
+						<h2>Ruko/Rukan</h2>
+						<p> {{item.address_name}}
+						    {{item.floor}} {{item.room_unit}} <br/>
+							{{item.address_content}}					
+						</p>	
+					</addrType>
+					<addrType ng-switch-when="6">
+						<h2>Kost</h2>
+						<p>	{{item.address_name}}
+						    {{item.floor}} {{item.room_unit}} <br/>
+							{{item.address_content}}								
+						</p>	
+					</addrType>
 	</div>
 </div> 
 

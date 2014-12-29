@@ -36,6 +36,10 @@ app.config(['$stateProvider', function($stateProvider) {
 						url : '/my-address',
 						templateUrl : 'address.html',
 						controller : 'addressCtrl'
+	}).state('new-address', { 	
+						url : '/new-address',
+						templateUrl : 'address-new.html',
+						controller : 'newAddressCtrl'
 	}).state('map-search', { 
 						url : '/map-search',
 						templateUrl : 'map-search.html',
@@ -268,6 +272,7 @@ app.controller('restoCtrl',function($scope,$stateParams,$http,Customer){
 	var urlLogin = url + "/outletInfo.php?outlet_id="+$scope.outlet_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlLogin).success(function(data) {
 		$scope.outletInfo = data.outlet;	
+		console.log($scope.outletInfo);
 		urlLogin = url + "/outletMenuCategory.php?brand_id="+$scope.outletInfo.brand_id+"&callback=JSON_CALLBACK";
 			//console.log(urlLogin);
 		$http.jsonp(urlLogin).success(function(data){
@@ -735,4 +740,81 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 		});
 		
 	};
+});
+
+
+app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,$location) {
+	$scope.newAddress = [
+		{ index : 1, text : "Get Your Location",checked : false},
+		{ index : 2, text : "Extra Guidance or Instructions", checked : false},
+		{ index : 3, text : "Address Detail",checked : false}
+	];
+	$scope.latitude = -6.219260;
+	$scope.longitude = 106.812410;
+
+	$scope.show = function() {
+	    $ionicLoading.show({
+	      template: 'Loading...'
+	    });
+	};
+	$scope.hide = function(){
+	    $ionicLoading.hide();
+	};
+
+	var mapOptions = {	center: new google.maps.LatLng($scope.latitude,$scope.longitude),
+					 	zoom : 15,
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						streetViewControl: false
+					 };
+
+	$ionicModal.fromTemplateUrl('newaddress-template.html', {
+	  	scope: $scope,
+	  	animation: 'slide-in-up'
+	}).then(function (modal) {
+
+		$scope.modal = modal;	
+	});
+
+	$scope.$on('$destroy', function () {
+		$scope.modal.remove();
+	});
+	
+	$scope.openModal = function (tab){	
+		$scope.modal.show();
+		$scope.map =  new google.maps.Map(document.getElementById('map'), mapOptions);
+		var myLocation = new google.maps.Marker({
+		            position: new google.maps.LatLng($scope.latitude,$scope.longitude),
+		            map: $scope.map,
+					draggable: true,
+		            title: "My Location"
+		});
+		if(navigator.geolocation) {
+			myLocation.setVisible(false);
+	    	navigator.geolocation.getCurrentPosition(function(position) {
+				$scope.latitude = position.coords.latitude;
+		        $scope.longitude = position.coords.longitude;
+		        $scope.accuracy = position.coords.accuracy;
+		        $scope.$apply();
+				
+				var latlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
+				myLocation.setPosition(latlng);
+				myLocation.setVisible(true);
+		        $scope.map.setCenter(latlng);
+		        
+		        var httpz = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.latitude+","+$scope.longitude+"&key=AIzaSyDwb8lxMiMVIVM4ZQ98RssfumMr8Olepzw";
+		        $http.get(httpz).success(function(data){
+		        	$scope.full_address = data.results[0].formatted_address;
+		        	
+		        });
+			});
+		}
+  	};
+  	$scope.closeModal = function() {
+    	$scope.modal.hide();
+    	
+  	};
+	$scope.saveModal = function() {
+		
+    	$scope.modal.hide();
+  	};
 });

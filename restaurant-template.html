@@ -4,35 +4,44 @@
 
     <div class="row" style="margin-top:0px;padding:15px">
 
-	<div class="col" style="background-color:#fff">
-	    <img ng-src="img/brand_logo/{{outletInfo.brand_id}}-logo-square.png" style="width:100%"/>
-	</div>
-	<div class="col">
-	    <strong>{{outletInfo.outlet_name | outletname}}</strong><br/>
-	    @ {{outletInfo.outlet_name | outletname:1}}<br/>
-	    {{outletInfo.food_permit | foodpermit}}
-	</div>
+		<div class="col col-25" style="background-color:#fff">
+		    <img ng-src="img/brand_logo/{{outletInfo.brand_id}}-logo-square.png" style="width:100%"/>
+		</div>
+		<div class="col padding" style="font-size:16px;line-height:25px">
+		    <strong>{{outletInfo.outlet_name | outletname}}</strong><br/>
+		    <span style="color:#5f5f5f">@ {{outletInfo.outlet_name | outletname:1}}<br/></span>
+		    <span style="color:#999">{{outletInfo.food_permit | foodpermit }}</span>
+		</div>
     </div>
 
 	<div class="row">
-		<div class="col" style="text-align:center;background-color:red;margin-top:15px;padding:5px 0;border-radius:5px;color:#fff">
+		<div class="col" style="text-align:center;background-color:#ff000a;margin-top:15px;padding:10px 0;border-radius:5px;color:#fff;font-size:18px">
 			<i class="fa fa-clock-o"></i> 11:00 - 20:30
 		</div>
 
 	</div>
 	
-	<hr style="width:100%;border:1px solid #999"/>
+	<div class="padding">
+		<hr style="width:100%;border:none;border-top:1px solid #999"/>
+	</div>
 	
 	<div class="row">
 		<div class="col">
-			asd
+			<div class="resto_circle1"><div><i class="ion-cash"></i></div></div>
+			<div class="resto_circle_text">Minimum Order<br/>Rp. {{outletInfo.min_transaction | currency : '' : 0 }}</div>
 		</div>
 		<div class="col">
-			
+			<div class="resto_circle2"><div><i class="ion-card"></i></div></div>
+			<div class="resto_circle_text">Cash Only</div>
 		</div>
-		<div class="col">
-			
+		<div class="col" style="text-align:center;color:#999">
+			<div class="resto_circle3"><div><i class="ion-paper-airplane"></i></div></div>
+			<div class="resto_circle_text">Delivery Fee<br/>Rp. {{outletInfo.delivery_charge | currency : '' : 0 }}</div>
 		</div>
+	</div>
+
+	<div class="padding">
+		<hr style="width:100%;border:none;border-top:1px solid #999"/>
 	</div>
 
 </div>

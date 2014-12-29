@@ -1,8 +1,7 @@
 angular.module('sdfilters',[]).filter('foodpermit',function(){
 	return function(input) {
-		if (!input || !input.length) { return; }
 		var out = "Non-Halal";
-		if (input) {
+		if (input == 1) {
 		  out = "Halal";
 		}
 		return out;
