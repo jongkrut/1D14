@@ -2,7 +2,7 @@
 
 <ion-nav-bar class="navbar">
 
-	<ion-nav-buttons side="left">
+	<ion-nav-buttons side="left" ng-click="toggleLeft()">
 		<i class="ion-navicon-round" style="color:#fff;vertical-align:60%;cursor:pointer;font-size:20px" ng-click="toggleLeft()"></i>
 		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:-5px;cursor:pointer" ng-click="toggleLeft()"/>
 	</ion-nav-buttons>
@@ -63,7 +63,7 @@
 	<div class="find_loc" ng-show="newAddress">
 		or
 		<br/><br/>
-		<button class="button button-assertive" style="background-color:#c41920;font-size:12px;font-weight:bold"><i class="icon ion-marker"></i> Tell us your location</button>
+		<a class="button button-assertive" ui-sref="location-search" style="background-color:#c41920;font-size:12px;font-weight:bold"><i class="icon ion-marker"></i> Tell us your location</a>
 	</div>
 
 

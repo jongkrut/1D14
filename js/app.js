@@ -30,6 +30,7 @@ app.config(['$stateProvider', function($stateProvider) {
 							templateUrl : 'login.html',
 							controller : 'midLoginCtrl'
 	}).state('home', { 	url : '/',
+						cache : false,
 						templateUrl : 'home.html',
 						controller : 'homeCtrl'
 	}).state('my-address', { 	
@@ -44,6 +45,10 @@ app.config(['$stateProvider', function($stateProvider) {
 						url : '/map-search',
 						templateUrl : 'map-search.html',
 						controller : 'mapsCtrl'
+	}).state('location-search', { 
+						url : '/location-search',
+						templateUrl : 'map-search.html',
+						controller : 'locationCtrl'
 	}).state('search', { 
 						url : '/search',
 						templateUrl : 'search.html',
@@ -123,7 +128,7 @@ app.controller('addressCtrl',function($scope,$http,$location,Customer){
 	$scope.addresses = Customer.getAddress();
 });
 
-app.controller('loginCtrl',function($scope,$http,$location,Customer,Search){
+app.controller('loginCtrl',function($scope,$http,Customer,Search,$state){
 	$scope.errorLogin = 0;
 	$scope.doLogin = function (user) {
 			var urlLogin = url + "/login.php?user="+user.email+":"+user.password+"&callback=JSON_CALLBACK";
@@ -136,10 +141,9 @@ app.controller('loginCtrl',function($scope,$http,$location,Customer,Search){
 					delete data.login;
 					delete data.address;
 
-					Customer.init(data);
-					Customer.setAddress(address);
+					Customer.login(data,address);
 					$scope.errorLogin = 0;
-					$location.path('/');
+					$state.go('home');
 				}
 			});
     };
@@ -187,7 +191,7 @@ app.controller('midLoginCtrl',function($scope,$stateParams,$http,$location,Custo
     };
 });
 
-app.controller('homeCtrl',function($scope,$location,$ionicSideMenuDelegate,$ionicLoading,$http,$ionicModal,Customer,Search){
+app.controller('homeCtrl',function($scope,$location,$ionicSideMenuDelegate,$ionicLoading,$http,$ionicModal,Customer,Search,$window){
 	$scope.newAddress = true;
 	$scope.logged_in = Customer.isLogged();
 	$scope.data  = {};
@@ -552,6 +556,110 @@ app.controller('mapsCtrl',function($scope,$http,$ionicLoading,Search,$location,C
 	};
 });
 
+app.controller('locationCtrl',function($scope,$http,$ionicLoading,Search,$location,Customer) {
+	var areaJson = {};
+	$scope.searchInput = true;
+	Search.init();
+	Search.setType("0");
+	$scope.areaCoverage = 0;
+	$scope.latitude = -6.219260;
+	$scope.longitude = 106.812410;
+	var log = 0;
+	$scope.logged_in = Customer.isLogged();
+	$scope.$on('state.update', function () {
+    	$scope.logged_in = false;
+    });
+
+	$scope.show = function() {
+	    $ionicLoading.show({
+	      template: 'Loading...'
+	    });
+	};
+	$scope.hide = function(){
+	    $ionicLoading.hide();
+	};
+	$scope.show();
+	$http.get("http://backoffice.satudelivery.com/protected/ordering/area.json").success(function(data){
+        areaJson = data; 
+		$scope.hide();
+	});
+	
+	var mapOptions = {	center: new google.maps.LatLng($scope.latitude,$scope.longitude),
+					 	zoom : 15,
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						streetViewControl: false
+					 };
+
+	$scope.map =  new google.maps.Map(document.getElementById('map'), mapOptions);
+	var myLocation = new google.maps.Marker({
+		            position: new google.maps.LatLng($scope.latitude,$scope.longitude),
+		            map: $scope.map,
+					draggable: true,
+		            title: "My Location"
+				});
+	var input = document.getElementById('addr_input');
+	var autooption = {
+		componentRestrictions : { country: 'id' }
+	};
+	var autocomplete = new google.maps.places.Autocomplete(input,autooption);
+
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		myLocation.setVisible(false);
+		var place = autocomplete.getPlace();
+		var latlng = place.geometry.location;
+		$scope.latitude = latlng.lat();
+		$scope.longitude = latlng.lng();
+		$scope.map.setCenter(latlng);
+		myLocation.setPosition(latlng);
+		myLocation.setVisible(true);
+		log = 0;
+		Search.remove();
+		Search.addLoc($scope.latitude,$scope.longitude);
+		Search.setType("0");
+		angular.forEach(areaJson, function(value,key){
+			angular.forEach(value.outlet,function(value1,key1){
+				var pathArray = google.maps.geometry.encoding.decodePath(value1.area);
+				var pathPoly = new google.maps.Polygon({
+					path: pathArray
+				});
+				if(google.maps.geometry.poly.containsLocation(latlng,pathPoly)) {
+				    log++;
+				    Search.addOutlet(value1.id);	
+				}				
+			});
+		});
+		$scope.areaCoverage = log;
+		$scope.$apply();
+	});
+	
+	google.maps.event.addListener(myLocation,'dragend',function(){
+		var latlng = myLocation.getPosition();
+		$scope.latitude = latlng.lat();
+		$scope.longitude = latlng.lng();
+		$scope.map.setCenter(latlng);	
+		var httpz = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.latitude+","+$scope.longitude+"&key=AIzaSyDwb8lxMiMVIVM4ZQ98RssfumMr8Olepzw";
+		$http.get(httpz).success(function(data){
+		   	$scope.full_address = data.results[0].formatted_address;
+		});
+		log = 0;
+		Search.remove();
+		Search.addLoc($scope.latitude,$scope.longitude);
+		Search.setType("0");
+		angular.forEach(areaJson, function(value,key){
+			angular.forEach(value.outlet,function(value1,key1){
+				var pathArray = google.maps.geometry.encoding.decodePath(value1.area);
+				var pathPoly = new google.maps.Polygon({
+					path: pathArray
+				});
+				if(google.maps.geometry.poly.containsLocation(latlng,pathPoly)) {
+				    log++;
+				    Search.addOutlet(value1.id);
+				}				
+			});
+		});
+		$scope.areaCoverage = log;
+	});
+});
 
 app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicLoading,Cart,Customer,$location,$ionicPopup) {
 	$scope.outlet_id = $stateParams.outlet_id;
@@ -749,6 +857,7 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 		{ index : 2, text : "Extra Guidance or Instructions", checked : false},
 		{ index : 3, text : "Address Detail",checked : false}
 	];
+	$scope.addressInput = { 'address_selection' : 1 };
 	$scope.latitude = -6.219260;
 	$scope.longitude = 106.812410;
 
@@ -771,7 +880,6 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 	  	scope: $scope,
 	  	animation: 'slide-in-up'
 	}).then(function (modal) {
-
 		$scope.modal = modal;	
 	});
 
@@ -803,18 +911,19 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 		        
 		        var httpz = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.latitude+","+$scope.longitude+"&key=AIzaSyDwb8lxMiMVIVM4ZQ98RssfumMr8Olepzw";
 		        $http.get(httpz).success(function(data){
-		        	$scope.full_address = data.results[0].formatted_address;
-		        	
+		        	$scope.full_address = data.results[0].formatted_address;       	
 		        });
+				$scope.newAddress[0].checked = true;
 			});
 		}
   	};
   	$scope.closeModal = function() {
     	$scope.modal.hide();
-    	
   	};
-	$scope.saveModal = function() {
-		
-    	$scope.modal.hide();
+	$scope.saveAddress = function(address) {
+		address.latitude = $scope.latitude;
+		address.longitude = $scope.longitude;
+		console.log(address);
+    	//$scope.modal.hide();
   	};
 });

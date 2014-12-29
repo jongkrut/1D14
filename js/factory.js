@@ -127,6 +127,11 @@ angular.module('customer',[]).factory('Customer',function($rootScope){
 			localStorage.setItem("customer",JSON.stringify(customer));
 			localStorage.setItem("customer_address",JSON.stringify([]));
 		},
+		login: function(customer,address){
+			localStorage.setItem("customer",JSON.stringify(customer));
+			localStorage.setItem("customer_address",JSON.stringify(address));
+			$rootScope.$broadcast('state.login');
+		},
 		getCustomerID : function(){
 			customer = JSON.parse(localStorage.getItem("customer"));
 			return customer.customer_id;
