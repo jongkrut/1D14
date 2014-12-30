@@ -119,7 +119,7 @@ angular.module('search',[]).factory('Search',function(){
 	return cart;
 });
 
-angular.module('customer',[]).factory('Customer',function($rootScope){
+angular.module('customer',[]).factory('Customer',function($rootScope,$http){
 	var cart = {
 		customer : '',
 		address : '',
@@ -178,6 +178,13 @@ angular.module('customer',[]).factory('Customer',function($rootScope){
 				}
 				return addr;
 			}
+		},
+		refreshAddress: function() {
+			customer = JSON.parse(localStorage.getItem("customer"));
+			var urlLogin = url + "/refreshAddress.php?cust_id="+customer.customer_id+"&callback=JSON_CALLBACK";
+			$http.jsonp(urlLogin).success(function(data) {
+				localStorage.setItem("customer_address",JSON.stringify(data));
+			});
 		},
 		logout: function(){
 			localStorage.removeItem("customer");

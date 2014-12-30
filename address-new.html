@@ -6,18 +6,21 @@
 		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
     </ion-nav-back-button>
 
-	<ion-nav-buttons side="right">
-		<button class="button-clear" ng-click="openPopover($event)">
-			Save
-		</button>
-    </ion-nav-buttons>
 </ion-nav-bar>
 
 
 	<ion-content style="background-color:#eee">
 		<div class="list list-inset">
-			<div class="item item-icon-right" ng-repeat="item in newAddress" ng-click="openModal($index)">
+			<div class="item item-icon-right" ng-repeat="item in newAddress" ng-click="openModal(item.index)">
 				{{item.text}} <i class="icon ion-ios7-checkmark-outline" ng-hide="item.checked"></i> <i class="icon ion-ios7-checkmark" ng-show="item.checked"></i>
+			</div>
+		</div>
+
+		<div class="padding">
+			<div class="button-bar">
+				<button class="button button-balanced" ng-click="commitAddress()" ng-disabled="newAddress[0].checked == false || newAddress[1].checked == false || newAddress[2].checked == false">
+					Save Address
+				</button>
 			</div>
 		</div>
 	</ion-content>
@@ -26,42 +29,36 @@
 
 
 <script id="newaddress-template.html" type="text/ng-template">
-
 	<ion-modal-view>
 		<ion-header-bar class="bar">
 			<div class="buttons">
 				<button class="button" ng-click="closeModal()">Cancel</button>
 			</div>
-			<h1 class="title">Create New Address</h1>
+			<h1 class="title" ng-show="tab == 1">Your Location</h1>
+			<h1 class="title" ng-show="tab == 2">Directions</h1>
+			<h1 class="title" ng-show="tab == 3">Create New Address</h1>
 			<div class="buttons">
 				<button class="button" ng-click="saveAddress(addressInput)">Save</button>
 			</div>
 		</ion-header-bar>
-	    <ion-tabs class="tabs-positive tabs-icon-only tabs-top">
-			<ion-tab title="Home" icon-on="ion-ios7-location" icon-off="ion-ios7-location-outline">
-				<ion-content>
-					<div style="height:93px"></div>
-					<div id="map" style="height:460px"></div>
-					<div class="padding" style="font-size:12px">
+
+		<ion-content>
+			<div ng-show="tab == 1">
+				<div id="map" style="height:460px"></div>
+				<div class="padding" style="font-size:12px">
 						{{full_address}}
-					</div
-				</ion-content>
-			</ion-tab>
+				</div>
+			</div>
 
-			<ion-tab title="About" icon-on="ion-ios7-flag" icon-off="ion-ios7-flag-outline">
-				<ion-content>
-					<div style="height:93px"></div>
-					<div class="list">
+			<div ng-show="tab == 2">
+				<div class="list">
 		                <label class="item item-input">
-		        	       <textarea ng-model="addressInput.instructions" style="height:100px" placeholder="Special Instructions"></textarea>
+		        	       <textarea ng-model="addressInput.patokan" style="height:100px" placeholder="Special Instructions"></textarea>
 		                </label>
-		            </div>
-				</ion-content>
-			</ion-tab>
+		        </div>
+			</div>
 
-			<ion-tab title="Settings" icon-on="ion-ios7-home" icon-off="ion-ios7-home-outline">
-				<ion-content>
-				<div style="height:93px"></div>
+			<div ng-if="tab==3">
 				<div class="list list-inset" ng-switch on="addr.address_type">
 					<label class="item item-input item-select">
 					    <div class="input-label">
@@ -94,9 +91,6 @@
 						<div ng-switch-when="2">
 							<label class="item item-input">
 							    <input type="text" placeholder="Name Komplek" ng-model="addressInput.address_name">
-							</label>
-							<label class="item item-input">
-							    <input type="text" placeholder="Nomor" ng-model="addressInput.room_unit">
 							</label>
 						</div>
 						<div ng-switch-when="3">						
@@ -148,8 +142,8 @@
 						<textarea ng-model="addressInput.address_content" placeholder="Full Address"></textarea>
 					</div>
 				</div>
-				</ion-content>
-			</ion-tab>
-		</ion-tabs>
+			</div>
+
+		</ion-content>
 	</ion-modal-view>  	
 </script>

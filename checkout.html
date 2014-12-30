@@ -61,8 +61,7 @@
 						</div>
 						<div class="item item-text-wrap">
 							{{addr.address_name}}
-						    {{addr.address_content}}
-							{{addr.room_unit}}							
+						    {{addr.address_content}}						
 						</div>	
 					</addrType>
 					<addrType ng-switch-when="3">
@@ -141,9 +140,6 @@
 						<div ng-switch-when="2">
 							<label class="item item-input">
 							    <input type="text" placeholder="Name Komplek" ng-model="addressInput.address_name">
-							</label>
-							<label class="item item-input">
-							    <input type="text" placeholder="Nomor" ng-model="addressInput.room_unit">
 							</label>
 						</div>
 						<div ng-switch-when="3">						

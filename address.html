@@ -7,7 +7,7 @@
     </ion-nav-back-button>
 	
 	<ion-nav-buttons side="right">
-		<a class="button-clear" href="#/new-address" style="color:#fff;font-size:16px">
+		<a class="button button-clear" href="#/new-address" style="color:#fff;font-size:16px;text-decoration:none;">
 			New
 		</a>
     </ion-nav-buttons>
@@ -30,8 +30,7 @@
 					<addrType ng-switch-when="2">
 						<h2>Rumah</h2>
 						<p>	{{item.address_name}}
-						    {{item.address_content}}
-							{{item.room_unit}}							
+						    {{item.address_content}}						
 						</p>	
 					</addrType>
 					<addrType ng-switch-when="3">

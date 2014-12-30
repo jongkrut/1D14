@@ -76,7 +76,14 @@ app.config(function($urlRouterProvider){
     $urlRouterProvider.when('', '/');
 });
 
-app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPopover,$location,Customer){
+app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPopover,$location,Customer,$ionicPlatform){
+	$ionicPlatform.ready(function() {
+		var logged = Customer.isLogged();
+		if(logged == true) {
+			Customer.refreshAddress();
+		}
+	});
+
 	$rootScope.toggleLeft = function() {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
@@ -84,13 +91,6 @@ app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPo
 	$rootScope.goBack = function() {
 		$ionicNavBarDelegate.back();
 	};
-
-	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-		if(toState.name == 'home')
-			$rootScope.onHome = true;
-		else
-			$rootScope.onHome = false;
-	});
 
 	$ionicPopover.fromTemplateUrl('popover-account.html', {
 		scope: $rootScope,
@@ -851,12 +851,13 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 });
 
 
-app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,$location) {
+app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,$location,Customer) {
 	$scope.newAddress = [
 		{ index : 1, text : "Get Your Location",checked : false},
 		{ index : 2, text : "Extra Guidance or Instructions", checked : false},
 		{ index : 3, text : "Address Detail",checked : false}
 	];
+	$scope.tab = {};
 	$scope.addressInput = { 'address_selection' : 1 };
 	$scope.latitude = -6.219260;
 	$scope.longitude = 106.812410;
@@ -888,32 +889,46 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 	});
 	
 	$scope.openModal = function (tab){	
+		$scope.tab = tab;
 		$scope.modal.show();
+		
+		if($scope.tab == 1) {
 		$scope.map =  new google.maps.Map(document.getElementById('map'), mapOptions);
-		var myLocation = new google.maps.Marker({
-		            position: new google.maps.LatLng($scope.latitude,$scope.longitude),
-		            map: $scope.map,
-					draggable: true,
-		            title: "My Location"
-		});
-		if(navigator.geolocation) {
-			myLocation.setVisible(false);
-	    	navigator.geolocation.getCurrentPosition(function(position) {
-				$scope.latitude = position.coords.latitude;
-		        $scope.longitude = position.coords.longitude;
-		        $scope.accuracy = position.coords.accuracy;
-		        $scope.$apply();
-				
-				var latlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
-				myLocation.setPosition(latlng);
-				myLocation.setVisible(true);
-		        $scope.map.setCenter(latlng);
-		        
-		        var httpz = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.latitude+","+$scope.longitude+"&key=AIzaSyDwb8lxMiMVIVM4ZQ98RssfumMr8Olepzw";
-		        $http.get(httpz).success(function(data){
-		        	$scope.full_address = data.results[0].formatted_address;       	
-		        });
-				$scope.newAddress[0].checked = true;
+			var myLocation = new google.maps.Marker({
+			            position: new google.maps.LatLng($scope.latitude,$scope.longitude),
+			            map: $scope.map,
+						draggable: true,
+			            title: "My Location"
+			});
+			if(navigator.geolocation) {
+				myLocation.setVisible(false);
+		    	navigator.geolocation.getCurrentPosition(function(position) {
+					$scope.latitude = position.coords.latitude;
+			        $scope.longitude = position.coords.longitude;
+			        $scope.accuracy = position.coords.accuracy;
+			        $scope.$apply();
+					
+					var latlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
+					myLocation.setPosition(latlng);
+					myLocation.setVisible(true);
+			        $scope.map.setCenter(latlng);
+			        
+			        var httpz = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.latitude+","+$scope.longitude+"&key=AIzaSyDwb8lxMiMVIVM4ZQ98RssfumMr8Olepzw";
+			        $http.get(httpz).success(function(data){
+			        	$scope.full_address = data.results[0].formatted_address;       	
+			        });
+					$scope.newAddress[0].checked = true;
+				});
+			}
+			google.maps.event.addListener(myLocation,'dragend',function(){
+				var latlng = myLocation.getPosition();
+				$scope.latitude = latlng.lat();
+				$scope.longitude = latlng.lng();
+				$scope.map.setCenter(latlng);	
+				var httpz = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.latitude+","+$scope.longitude+"&key=AIzaSyDwb8lxMiMVIVM4ZQ98RssfumMr8Olepzw";
+				$http.get(httpz).success(function(data){
+				   	$scope.full_address = data.results[0].formatted_address;
+				});
 			});
 		}
   	};
@@ -923,7 +938,25 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 	$scope.saveAddress = function(address) {
 		address.latitude = $scope.latitude;
 		address.longitude = $scope.longitude;
-		console.log(address);
-    	//$scope.modal.hide();
+		if(address.patokan)
+			$scope.newAddress[1].checked = true;
+		if(address.address_content) 
+			$scope.newAddress[2].checked = true;
+    	$scope.modal.hide();
   	};
+  	$scope.commitAddress = function() {
+  		$scope.addressInput.customer_id = Customer.getCustomerID();
+  		$http({
+		    url: url + "/saveAddress.php",
+		    method: "POST",
+		    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		    data: $scope.addressInput
+		})
+		.then(function(response) {
+			if(response.data.address_id > 0) {
+				Customer.setAddress(response.data.address);
+			}
+		});
+  		$location.path('/my-address');
+  	}
 });
