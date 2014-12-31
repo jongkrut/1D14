@@ -69,7 +69,11 @@ app.config(['$stateProvider', function($stateProvider) {
 						url : '/checkout/:outlet_id/:brand_id',
 						templateUrl : 'checkout.html',
 						controller : 'checkoutCtrl'
-	});	
+	}).state('confirmation', { 
+						url : '/confirmation/:order_id',
+						templateUrl : 'confirmation.html',
+						controller : 'confirmationCtrl'
+	});		
 }]);
 
 app.config(function($urlRouterProvider){ 
@@ -835,7 +839,7 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 		test.subtotal = Cart.getTotalPrice();
 		test.order_type = Cart.getDeliveryType();
 		test.order_datetime = Cart.getDeliveryTime();
-		console.log(test);
+		//console.log(test);
 		
 		$http({
 		    url: url + "/placeOrder.php",
@@ -844,7 +848,13 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 		    data: test
 		})
 		.then(function(response) {
-			console.log(response.data);
+			var order_id = response.data;
+			//console.log(order_id);
+			if(order_id > 0) {
+				$location.path('/confirmation/'+order_id);
+			} else {
+
+			}
 		});
 		
 	};
@@ -959,4 +969,13 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 		});
   		$location.path('/my-address');
   	}
+});
+
+app.controller('confirmationCtrl',function($scope,$http,$ionicLoading,$location,$stateParams,Customer) {
+	$scope.order_id = $stateParams.order_id;
+	$scope.logged_in = Customer.isLogged();
+	$scope.$on('state.update', function () {
+    	$scope.logged_in = false;
+    });
+    $scope.customer_email = Customer.getCustomerEmail();
 });

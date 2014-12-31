@@ -136,6 +136,10 @@ angular.module('customer',[]).factory('Customer',function($rootScope,$http){
 			customer = JSON.parse(localStorage.getItem("customer"));
 			return customer.customer_id;
 		},
+		getCustomerEmail :function(){
+			customer = JSON.parse(localStorage.getItem("customer"));
+			return customer.customer_email;
+		},
 		setAddress: function(address) {
 			localStorage.setItem("customer_address",JSON.stringify(address));
 		},

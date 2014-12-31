@@ -1,0 +1,38 @@
+<ion-view>
+
+<ion-nav-bar class="navbar" align-title="center">
+	<ion-nav-buttons side="left">
+		<a href="#/" class="button-clear" style="text-decoration:none;color:#fff;font-size:15px">
+			<i class="ion-ios7-home icon-header" style="font-size:20px"></i> Home
+		</a>
+    </ion-nav-buttons>
+	
+	<ion-nav-title>
+		<a href='#/'>Confirmation</a>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<a href="#/login" class="button-clear" ng-hide="logged_in" style="text-decoration:none">
+			<i class="ion-person icon-header"> Login</i>
+		</a>
+			
+		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
+			<i class="ion-person icon-header"></i>
+		</button>
+    </ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content style="background-color:#eee">
+
+<div style="text-align:center;font-size:18px;font-weight:bold;margin-top:15px">Thank You for Your Order</div>
+
+<div class="card padding">
+<div style="color:#bc1e2d;font-weight:bold;font-size:16px">Your Order ID : {{order_id}}</div>
+<br/>
+<p>
+Your order detail will be available shortly at <span style="opacity:0.5">{{customer_email}}</span>. You can also check your order history via your account page.
+</p>
+</div>
+
+</ion-content>
+</ion-view>
