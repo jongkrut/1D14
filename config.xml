@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+		xmlns:android = "http://schemas.android.com/apk/res/android"
+        id        = "com.satudelivery.boga"
+		versionCode = "1"
+        version   = "0.1.1">
+
+    <name>Boga Delivery</name>
+
+    <description>
+        Boga Group - Satu Delivery Application
+    </description>
+
+    <author href="http://satudelivery.com" email="cs@klik-eat.com">
+        Boga Delivery
+    </author>
+
+	<gap:platform name="android" />
+	
+    <!--
+        Enable individual API permissions here.
+        The "device" permission is required for the 'deviceready' event.
+    -->
+    <feature name="http://api.phonegap.com/1.0/device" />
+
+    <!--
+        If you do not want any permissions to be added to your app, add the
+        following tag to your config.xml; you will still have the INTERNET
+        permission on your app, which PhoneGap requires.
+    -->
+    <preference name="permissions"                value="none"/>
+
+    <!-- Customize your app and platform with the preference element. -->
+    <preference name="phonegap-version"           value="3.6.3" />          <!-- all: current version of PhoneGap -->
+    <preference name="orientation"                value="portrait" />       <!-- all: default means both landscape and portrait are enabled -->
+    <preference name="fullscreen"                 value="true" />           <!-- all: hides the status bar at the top of the screen -->
+		
+    <preference name="android-minSdkVersion"      value="7" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
+    <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
+
+    <!-- Plugins can also be added here. -->
+    <!--
+        <gap:plugin name="Example" />
+        A list of available plugins are available at https://build.phonegap.com/docs/plugins
+    -->
+	
+	<gap:plugin name="org.apache.cordova.device"/>
+	<gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
+	
+    <!-- Define app icon for each platform. -->
+    <icon src="icon.png" />
+
+    <icon src="res/icon/android/ldpi.png"   gap:platform="android"    gap:qualifier="ldpi" />
+    <icon src="res/icon/android/mdpi.png"   gap:platform="android"    gap:qualifier="mdpi" />
+    <icon src="res/icon/android/hdpi.png"   gap:platform="android"    gap:qualifier="hdpi" />
+    <icon src="res/icon/android/xhdpi.png"  gap:platform="android"    gap:qualifier="xhdpi" />
+	<icon src="res/icon/android/xxhdpi.png"  gap:platform="android"    gap:qualifier="xxhdpi" />
+	<icon src="res/icon/android/fr-xxhdpi.png"  gap:platform="android"    gap:qualifier="fr-xxhdpi" />
+	
+    <!-- Define app splash screen for each platform. -->
+    <gap:splash src="res/screen/android/ldpi.png"  gap:platform="android" gap:density="ldpi" />
+    <gap:splash src="res/screen/android/mdpi.png"  gap:platform="android" gap:density="mdpi" />
+    <gap:splash src="res/screen/android/hdpi.png"  gap:platform="android" gap:density="hdpi" />
+    <gap:splash src="res/screen/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+	<gap:splash src="res/screen/android/xxhdpi.png" gap:platform="android" gap:density="xxhdpi" />
+	
+    <gap:config-file platform="ios" parent="LSMinimumSystemVersion">
+		<string>7.0</string>
+	</gap:config-file>
+	
+	<gap:config-file platform="ios" parent="CFBundleVersion"><string>1.6.5</string></gap:config-file>
+
+    <access origin="*"/> <!-- allow local pages -->
+	<access origin="*.pushwoosh.com"/>
+
+</widget>

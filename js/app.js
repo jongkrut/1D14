@@ -134,6 +134,10 @@ app.controller('addressCtrl',function($scope,$http,$location,Customer){
 
 app.controller('loginCtrl',function($scope,$http,Customer,Search,$state){
 	$scope.errorLogin = 0;
+	$scope.logged_in = Customer.isLogged();
+	if($scope.logged_in == true) {
+		$state.go('home');
+	}
 	$scope.doLogin = function (user) {
 			var urlLogin = url + "/login.php?user="+user.email+":"+user.password+"&callback=JSON_CALLBACK";
 			$http.jsonp(urlLogin).success(function(data) {
@@ -163,7 +167,7 @@ app.controller('loginCtrl',function($scope,$http,Customer,Search,$state){
 			console.log(response.data);
 			if(response.data.customer_id > 0) {
 				Customer.init(response.data);
-		    	$location.path('/');
+		    	$state.go('home');
 			} 
 		});
     };
