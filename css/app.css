@@ -35,13 +35,7 @@
 .search-link,.search-link:hover {
 	text-decoration:none;
 }
-.search-logo {
-	position:absolute;
-	width:100px;
-	height:auto;
-	top:5px;
-	left:5px;
-}
+
 .caption-time {
 	width:100%;
 	text-align:center;
@@ -115,6 +109,7 @@
 .resto_list {
 	padding:0px !important;
 	border-radius:5px;
+	overflow:hidden;
 }
 
 .resto_list a {
@@ -181,9 +176,12 @@
 	padding:10px;
 	background-color: #fff;
 	float:left;
-	
-
 }
+.cart-summary-container:active{
+	background-color:#bdbdbd;
+	border-color:#000;
+}
+
 .cart-summary-left {
 	width:40%;
 	float:left;

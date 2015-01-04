@@ -76,8 +76,10 @@ app.config(['$stateProvider', function($stateProvider) {
 	});		
 }]);
 
-app.config(function($urlRouterProvider){ 
+app.config(function($urlRouterProvider,$ionicConfigProvider){ 
     $urlRouterProvider.when('', '/');
+	$ionicConfigProvider.views.maxCache(0);
+	$ionicConfigProvider.backButton.text('');
 });
 
 app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPopover,$location,Customer,$ionicPlatform){
@@ -424,6 +426,10 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
   	Cart.init($scope.outlet_id);
   	$scope.items = Cart.getTotalItems();
   	$scope.prices = Cart.getTotalPrice();
+	
+	$scope.goToCart = function() {
+		$location.path("/cart/"+$scope.outlet_id+"/"+$scope.brand_id);
+	};
 }).directive('cartcontents',function() {
 	return {
 		restrict : 'E',
@@ -672,6 +678,7 @@ app.controller('locationCtrl',function($scope,$http,$ionicLoading,Search,$locati
 app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicLoading,Cart,Customer,$location,$ionicPopup) {
 	$scope.outlet_id = $stateParams.outlet_id;
 	$scope.brand_id = $stateParams.brand_id;
+	Cart.init($scope.outlet_id);
 	$scope.data = {};
 	$scope.data.datetimetype = 1;
 	$scope.data.datetime = new Date();
@@ -683,7 +690,7 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
 	$scope.$on('state.update', function () {
     	$scope.logged_in = false;
     });
-	Cart.init($scope.outlet_id);
+	
 	$scope.items = Cart.getAll();
 	var totalItems = Cart.getTotalItems();
 	if(totalItems == 0)
