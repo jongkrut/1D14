@@ -33,6 +33,14 @@ app.config(['$stateProvider', function($stateProvider) {
 						cache : false,
 						templateUrl : 'home.html',
 						controller : 'homeCtrl'
+	}).state('history',{
+						url : '/history/:id',
+						templateUrl : 'history.html',
+						controller : 'historyCtrl'
+	}).state('my-account', { 	
+						url : '/my-account',
+						templateUrl : 'account.html',
+						controller : 'accountCtrl'
 	}).state('my-address', { 	
 						url : '/my-address',
 						templateUrl : 'address.html',
@@ -73,7 +81,20 @@ app.config(['$stateProvider', function($stateProvider) {
 						url : '/confirmation/:order_id',
 						templateUrl : 'confirmation.html',
 						controller : 'confirmationCtrl'
-	});		
+	}).state('pages', { 
+						url : '/pages/:page',
+						templateUrl : 'faq.html'
+	}).state('how-to-order',{
+						url : '/how-to-order',
+						templateUrl : 'howtoorder.html'
+	}).state('faq', { 
+						url : '/faq/',
+						templateUrl : 'faq.html'
+	}).state('faq2',{
+						url : '/faq2/:page',
+						templateUrl : 'faq2.html',
+						controller : 'faqCtrl'
+	});	
 }]);
 
 app.config(function($urlRouterProvider,$ionicConfigProvider){ 
@@ -89,6 +110,10 @@ app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPo
 			Customer.refreshAddress();
 		}
 	});
+
+	$rootScope.toHome = function() {
+		$location.path('/');
+	};
 
 	$rootScope.toggleLeft = function() {
 		$ionicSideMenuDelegate.toggleLeft();
@@ -118,20 +143,63 @@ app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPo
 		Customer.logout();
 		$rootScope.popover.hide();
 	};
-	
 });
 
-app.controller('panelCtrl',function($scope,$location){
-	
+app.controller('panelCtrl',function($scope,$location,Customer){
+	$scope.logged_in = Customer.isLogged();
+	$scope.$on('state.update', function () {
+    	$scope.logged_in = false;
+    });
+    $scope.$on('state.login', function () {
+    	$scope.logged_in = true;
+    });
 });
 
-app.controller('addressCtrl',function($scope,$http,$location,Customer){
+app.controller('addressCtrl',function($scope,$http,$location,Customer,$ionicSideMenuDelegate){
 	$scope.logged_in = Customer.isLogged();
 	$scope.$on('state.update', function () {
     	$scope.logged_in = false;
     	$scope.newAddress = true;
     });
 	$scope.addresses = Customer.getAddress();
+});
+
+app.controller('historyCtrl',function($scope,$http,$state,$stateParams,$ionicSideMenuDelegate,Customer){
+	$scope.logged_in = Customer.isLogged();
+	$scope.$on('state.update', function () {
+	    	$scope.logged_in = false;
+	    	$scope.newAddress = true;
+	});
+	if($scope.logged_in == true)
+	{
+		$scope.order_id = $stateParams.id;
+		$scope.customer_id = Customer.getCustomerID();
+		$scope.orderhistory = {};
+		$scope.details = {};
+		if($scope.order_id == '') {
+			var urlLogin = url + "/orderHistory.php?customer_id="+$scope.customer_id+"&callback=JSON_CALLBACK";
+			$http.jsonp(urlLogin).success(function(data) {
+				$scope.orderhistory = data.history;
+			});
+		} else {
+			var urlLogin = url + "/orderHistoryDetail.php?customer_id="+$scope.customer_id+"&order_id="+$scope.order_id+"&callback=JSON_CALLBACK";
+			$http.jsonp(urlLogin).success(function(data) {
+				$scope.details = data.history_detail;
+				console.log(data.history_detail);
+			});
+		}
+	} else {
+		$state.go('home');
+	}
+
+	$scope.toDetail = function(order_id){
+		$state.go('history', { 'id' : order_id });
+	};
+});
+
+app.controller('accountCtrl',function($scope,$http,Customer,$state){
+	$scope.customer = Customer.getCustomer();
+
 });
 
 app.controller('loginCtrl',function($scope,$http,Customer,Search,$state){
@@ -286,12 +354,11 @@ app.controller('restoCtrl',function($scope,$stateParams,$http,Customer){
 	var urlLogin = url + "/outletInfo.php?outlet_id="+$scope.outlet_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlLogin).success(function(data) {
 		$scope.outletInfo = data.outlet;	
-		console.log($scope.outletInfo);
 		urlLogin = url + "/outletMenuCategory.php?brand_id="+$scope.outletInfo.brand_id+"&callback=JSON_CALLBACK";
-			//console.log(urlLogin);
 		$http.jsonp(urlLogin).success(function(data){
 				$scope.menuCategories = data.category;
 		});
+
     });
 }).directive('restaurant',function() {
 	return {
@@ -989,4 +1056,13 @@ app.controller('confirmationCtrl',function($scope,$http,$ionicLoading,$location,
     	$scope.logged_in = false;
     });
     $scope.customer_email = Customer.getCustomerEmail();
+});
+
+
+app.controller('faqCtrl',function($scope,$location,$stateParams,$ionicNavBarDelegate){
+	$scope.section = $stateParams.page;
+	$scope.gozBack = function() {
+		//alert("S");
+		$location.path('#/faq/');
+	};
 });

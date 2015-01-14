@@ -1,0 +1,49 @@
+<ion-view>
+
+<ion-nav-bar class="navbar" align-title="center">
+<ion-nav-buttons side="left">
+        <button class="button-clear" ng-click="toggleLeft()">
+            <i class="ion-navicon-round icon-header" style="font-size:20px;vertical-align:40%"></i>
+            <img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:-10px"/>
+        </button>
+    </ion-nav-buttons>
+    
+    <ion-nav-buttons side="right">
+        <button class="button-clear" ng-click="toHome()">
+            <i class="ion-home icon-header" style="font-size:20px"></i>
+        </button>
+        <button class="button-clear">
+            <i class="ion-star icon-header" style="font-size:20px"></i>
+        </button>
+    </ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content style="background-color:#fff">
+
+
+
+<ion-slide-box on-slide-changed="slideHasChanged($index)">
+  <ion-slide style="text-align:center">
+    <img src="img/howtoorder/1.png" style="width:80%;margin-top:20px"/>
+  </ion-slide>
+  <ion-slide style="text-align:center">
+    <img src="img/howtoorder/2.png" style="width:80%;margin-top:20px"/>
+  </ion-slide>
+  <ion-slide style="text-align:center">
+    <img src="img/howtoorder/3.png" style="width:80%;margin-top:20px"/>
+  </ion-slide>
+  <ion-slide style="text-align:center">
+    <img src="img/howtoorder/4.png" style="width:80%;margin-top:20px"/>
+  </ion-slide>
+  <ion-slide style="text-align:center">
+    <img src="img/howtoorder/5.png" style="width:80%;margin-top:20px"/>
+  </ion-slide>
+  <ion-slide style="text-align:center">
+    <img src="img/howtoorder/6.png" style="width:80%;margin-top:20px"/>
+  </ion-slide>
+</ion-slide-box>
+
+</ion-content>
+
+
+</ion-view>

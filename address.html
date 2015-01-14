@@ -1,14 +1,12 @@
 <ion-view>
 
 <ion-nav-bar class="navbar" align-title="center">
-	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
-		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
-		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
-    </ion-nav-back-button>
-	
-	<ion-nav-title>
-		<a href='#/'>My Addresses</a>
-	</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<button class="button-clear" ng-click="toggleLeft()">
+			<i class="ion-navicon-round icon-header" style="font-size:20px;vertical-align:40%"></i>
+			<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:-10px"/>
+		</button>
+	</ion-nav-buttons>
 	
 	<ion-nav-buttons side="right">
 		<a class="button button-clear" href="#/new-address" style="color:#fff;font-size:16px;text-decoration:none;">

@@ -1,0 +1,100 @@
+<ion-view>
+
+<ion-nav-bar class="navbar" align-title="center">
+	<ion-nav-buttons side="left">
+		<button class="button-clear" ng-click="toggleLeft()">
+			<i class="ion-navicon-round icon-header" style="font-size:20px;vertical-align:40%"></i>
+			<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:-10px"/>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-nav-title>
+		Order History
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button class="button-clear" ng-click="toHome()">
+			<i class="ion-home icon-header" style="font-size:20px"></i>
+		</button>
+		<button class="button-clear">
+			<i class="ion-star icon-header" style="font-size:20px"></i>
+		</button>
+	</ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content  style="background-color:#eee">
+
+	<div class="list list-inset" ng-show="order_id==''">
+		<div class="item item-icon-right" ng-repeat="history in orderhistory" style="font-size:15px">
+			<div style="font-weight:bold;">#{{history.order_id}} - {{history.grandtotal | currency : 'Rp ' : 0}}</div>
+			{{history.outlet_name}}<br/>
+			{{history.datetime}}
+			<orderStatus ng-switch="history.order_status">
+				<div ng-switch-when="-1">Cancelled</div>
+				<div ng-switch-when="0">New Order</div>
+				<div ng-switch-when="1">Processing</div>
+				<div ng-switch-when="2">Dispatched</div>
+				<div ng-switch-when="3">Completed</div>
+			</orderStatus>
+			<i class="icon ion-ios7-download-outline" ng-click="toDetail({{history.order_id}})"></i>
+		</div>
+	</div>
+
+	<div class="list" ng-hide="order_id==''">
+		<div style="text-align:center;margin:20px 0;font-weight:bold">{{details.outlet_name}}</div>
+		<div class="item">
+			<div style="font-weight:bold">Delivery Time</div>
+			{{details.datetime}}
+		</div>
+		<div class="item">
+			<div style="font-weight:bold">Delivery Time</div>
+			{{details.datetime}}
+		</div>
+		<div class="item">
+			<div style="font-weight:bold">Payment Method</div>
+			{{details.payment_method}}
+		</div>
+		<div class="item">
+			<div style="font-weight:bold">Delivery Notes</div>
+			{{details.delivery_note}}
+		</div>
+		<div class="item" style="font-weight:bold">
+		Order Detail
+		</div>
+		<div class="item" ng-repeat="dt in details.details">
+			<table style="width:100%;font-size:14px">			
+				<tr>
+					<td style="width:10%;font-weight:bold">{{dt.quantity}}x 
+					<td style="width:70%">{{dt.menu_name}} 
+					<td style="width:20%">{{dt.total_price | currency : 'Rp ' : 0}}
+			</table>
+		</div>
+		<div class="item">
+			<table style="width:100%;font-size:14px">			
+				<tr>
+					<td style="width:10%">&nbsp;
+					<td style="width:90%"><div style="font-weight:bold">Tax & Service Charge</div>
+										  {{details.tax_service_charge | currency : 'Rp ' : 0}} 
+			</table>
+		</div>
+		<div class="item">
+			<table style="width:100%;font-size:14px">			
+				<tr>
+					<td style="width:10%">&nbsp;
+					<td style="width:90%"><div style="font-weight:bold">Delivery Fee</div>
+											{{details.delivery_fee | currency : 'Rp ' : 0}} 
+			</table>
+		</div>
+		<div class="item" style="background-color:#e9e9e9;margin-bottom:75px">
+			<table style="width:100%;font-size:18px;font-weight:bold">			
+				<tr>
+					<td style="width:10%">&nbsp;
+					<td style="width:90%">{{details.grandtotal | currency : 'Rp ' : 0}}<br/>
+					<span style="font-size:14px;font-weight:normal;color:#7d7d7d">Grand Total inc. additional fees</span>
+			</table>
+		</div>
+	</div>
+
+</ion-content>
+</ion-view>
+

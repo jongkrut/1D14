@@ -1,24 +1,18 @@
 <ion-view>
 
 <ion-nav-bar class="navbar" align-title="center">
-	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
-		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
-		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
+	<ion-nav-back-button class="button-clear">
+		<i class="ion-arrow-left-b" style="color:#fff;font-weight:bold"> Checkout</i> 		
     </ion-nav-back-button>
 	
-	<ion-nav-title>
-		<a href='#/'>Checkout</a>
-	</ion-nav-title>
-
 	<ion-nav-buttons side="right">
-		<a href="#/login" class="button-clear" ng-hide="logged_in" style="text-decoration:none">
-			<i class="ion-person icon-header"> Login</i>
-		</a>
-			
-		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
-			<i class="ion-person icon-header"></i>
+		<button class="button-clear" ng-click="toHome()">
+			<i class="ion-home icon-header" style="font-size:20px"></i>
 		</button>
-    </ion-nav-buttons>
+		<button class="button-clear">
+			<i class="ion-star icon-header" style="font-size:20px"></i>
+		</button>
+	</ion-nav-buttons>
 </ion-nav-bar>
 
 <ion-content style="background-color:#eee">

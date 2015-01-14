@@ -1,0 +1,93 @@
+<ion-view>
+
+<ion-nav-bar class="navbar" align-title="center">
+	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
+		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
+		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
+    </ion-nav-back-button>
+
+
+	<ion-nav-title>
+		<span ng-show="section=='new'">New Customer</span>
+		<span ng-show="section=='general'">General</span>
+		<span ng-show="section=='cancel'">Order Cancellation</span>
+	</ion-nav-title>
+
+	<ion-nav-buttons side="right">
+		<button class="button-clear" ng-click="toHome()">
+			<i class="ion-home icon-header" style="font-size:20px"></i>
+		</button>
+		<button class="button-clear">
+			<i class="ion-star icon-header" style="font-size:20px"></i>
+		</button>
+	</ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content  style="background-color:#eee">
+
+
+<div class="card padding" ng-show="section=='new'">
+    <strong>Apakah saya harus mendaftar sebagai member untuk melakukan pemesanan secara online?</strong><br/><br/>
+
+	Ya, untuk melakukan pemesanan Anda harus terdaftar sebagai member Boga Delivery. Proses registrasi sangat mudah, tinggal isi data valid, alamat lengkap dan nomor yang dapat dihubungi saja.<br/><br/>
+
+    <strong>Adakah persyaratan khusus untuk menjadi member?</strong><br/><br/>
+
+	Tidak, Anda hanya perlu mengisi informasi yang diperlukan. Untuk member yang pertama kali melakukan pemesanan, staf akan melakukan konfirmasi melalui telpon  untuk verifikasi data. Hal ini dilakukan sekali untuk menjaga kenyamanan saat melakukan pemesanan.<br/><br/>
+
+    <strong>Berapa biaya yang diperlukan untuk menjadi member?</strong><br/><br/>
+
+	Tidak ada biaya apapun untuk mendaftar menjadi member.<br/><br/>
+
+    <strong>Mengapa saya harus memasukkan 2 nomor telpon?</strong><br/><br/>
+
+	Kadang kala, kami akan menghubungi Anda untuk melakukan konfirmasi, misalnya ketika staf kami tidak menemukan alamat pengantaran atau terhambat di security gedung/apartment.<br/>
+</div>
+
+
+<div class="card padding" ng-show="section=='general'">
+
+	    <strong>Bagaimana saya tahu bila order telah diterima dan sudah diproses?</strong><br/><br/>
+
+	Pada saat Anda melakukan pemesanan melalui aplikasi ini, order secara otomatis akan dikirimkan kepada restoran.<br/><br/>
+
+	    <strong>Siapa yang harus saya hubungi bila order yang saya terima salah?</strong><br/><br/>
+
+	Apabila terjadi kesalahan dengan pesanan Anda, kami akan dengan senang hati membantu untuk menyelesaikan masalah tersebut. Silakan hubungi call center kami di 500558 atau 500559.<br/><br/>
+
+	    <strong>Bagaimana dengan area pengantarannya?</strong><br/><br/>
+
+	Area pengantaran kami terbatas hanya kurang lebih 3-5 km dari outlet dan hanya berlaku di Jabotabek saja. Pembatasan dilakukan untuk menjaga kualitas makanan dan waktu pengantaran dengan pertimbangan kondisi trafik lalu lintas yang sangat padat. Untuk lebih jelasnya, Anda dapat memasukkan alamat Anda di aplikasi ini untuk mengetahui apakah area Anda termasuk dalam area pengantaran kami.<br/><br/>
+
+	   <strong>Berapa lama saya harus menunggu sampai pesanan diantarkan?</strong><br/><br/>
+
+	Sekitar 45-60 menit sejak pesanan berhasil dilakukan.<br/><br/>
+
+	    <strong>Apakah ada minimum transaksi Boga Delivery?</strong><br/><br/>
+
+	Ada, Pepper Lunch, Master Wok minimal Rp 60.000 sebelum tax. Bakerzin, Paradise Dynasty, Paradise Inn, dan Canton Paradise minimal Rp 100.000 sebelum tax.<br/><br/>
+
+	    <strong>Kapan saya bisa melakukan pemesanan Boga Delivery?</strong><br/><br/>
+
+	Boga Delivery berlaku setiap hari dari pk 10.00 – 20.00 WIB.<br/><br/>
+
+	    <strong>Metode pembayaran apa saja yang diterima di Boga Delivery ini?</strong><br/><br/>
+
+	Untuk saat ini, kami hanya menerima cash on delivery saja. <br/>
+</div>
+
+
+<div class="card padding" ng-show="section=='cancel'">
+
+	
+    <strong>Bagaimana kebijakan Boga Delivery mengenai pembatalan order dan refund?</strong><br/><br/>
+
+Kami tidak bisa melakukan pembatalan pesanan.<br/><br/>
+
+    <strong>Sekali saya telah melakukan order, apakah saya dapat merubah order tersebut?</strong><br/><br/>
+
+Anda tidak dapat melakukan perubahan terhadap order tersebut. Oleh karena itu, mohon lakukan pengecekan ulang sebelum mengirim orderan.<br/><br/>
+</div>
+
+</ion-content>
+</ion-view>

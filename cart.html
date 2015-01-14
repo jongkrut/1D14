@@ -17,24 +17,18 @@
 <ion-view>
 
 <ion-nav-bar class="navbar" align-title="center">
-	<ion-nav-back-button class="button-clear" style="color:#bc1e2d;margin-top:-5px">
-		<i class="ion-arrow-left-b" style="color:#fff;vertical-align:40%"></i> 
-		<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:0px"/>
+	<ion-nav-back-button class="button-clear">
+		<i class="ion-arrow-left-b" style="color:#fff;font-weight:bold"> Your Cart</i> 		
     </ion-nav-back-button>
 	
-	<ion-nav-title>
-		<a href='#/'>Cart</a>
-	</ion-nav-title>
-
 	<ion-nav-buttons side="right">
-		<a href="#/login" class="button-clear" ng-hide="logged_in" style="text-decoration:none">
-			<i class="ion-person icon-header"> Login</i>
-		</a>
-			
-		<button class="button-clear" ng-click="openPopover($event)" ng-show="logged_in">
-			<i class="ion-person icon-header"></i>
+		<button class="button-clear" ng-click="toHome()">
+			<i class="ion-home icon-header" style="font-size:20px"></i>
 		</button>
-    </ion-nav-buttons>
+		<button class="button-clear">
+			<i class="ion-star icon-header" style="font-size:20px"></i>
+		</button>
+	</ion-nav-buttons>
 </ion-nav-bar>
 
 <ion-content style="background-color:#eee">
@@ -104,7 +98,7 @@
 </ion-list>
 
 <div class="card" ng-show="min_hit">
-	<div class="item item-text-wrap" style="text-align:center">
+	<div class="item item-text-wrap" style="text-align:center" ng-click="openModal()">
 		<span ng-if="data.datetimetype == 1">Immediate - ASAP</span>
 		<span ng-if="data.datetimetype == 2">Future - {{data.datetime | date : 'yyyy-MM-dd HH:mm:ss'}}</span>
 	</div>
@@ -114,16 +108,15 @@
 	<h1 class="title">Minimum Order {{min_transaction | currency : 'Rp ' : 0}}</h1>
 </div>
 
-<div class="padding">
-<div class="button-bar" style="margin-top:25px" ng-show="min_hit">
-	<a class="button button-calm" ng-click="openModal()">
-		Delivery Time
-	</a>
-	<button class="button button-balanced"  ng-click="toCheckout()">
-		Checkout
-	</button>	
+<div class="button-bar padding" style="margin-top:0px" ng-show="min_hit" >
+		<a class="button button-calm" ng-click="openModal()">
+			Delivery Time
+		</a>
+		<button class="button button-balanced"  ng-click="toCheckout()">
+			Checkout
+		</button>	
 </div>
-</div>
+
 
 <div style="height:50px;width:100%"></div>
 

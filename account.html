@@ -1,4 +1,4 @@
-<ion-view view-title="Confirmation">
+<ion-view>
 
 <ion-nav-bar class="navbar" align-title="center">
 	<ion-nav-buttons side="left">
@@ -18,17 +18,14 @@
 	</ion-nav-buttons>
 </ion-nav-bar>
 
-<ion-content style="background-color:#eee">
+<ion-content>
 
-<div style="text-align:center;font-size:18px;font-weight:bold;margin-top:15px">Thank You for Your Order</div>
-
-<div class="card padding">
-<div style="color:#bc1e2d;font-weight:bold;font-size:16px">Your Order ID : {{order_id}}</div>
-<br/>
-<p>
-Your order detail will be available shortly at <span style="opacity:0.5">{{customer_email}}</span>. You can also check your order history via your account page.
-</p>
+<div class="list">
+	<div class="item">{{customer.customer_name}}</div>
+	<div class="item">{{customer.phone}}</div>
+	<div class="item">{{customer.mobile}}</div>
 </div>
 
 </ion-content>
+
 </ion-view>

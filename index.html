@@ -24,35 +24,58 @@
 
 <body ng-app="indexApp">
 
-<ion-side-menus >
+<ion-side-menus enable-menu-with-back-views="true">
     <ion-side-menu-content drag-content="false">
 		<ion-nav-view animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
     <ion-side-menu side="left" ng-controller="panelCtrl" style="background-color:#585858">
+        <div class="list" style="background-color:#3d3d3d;text-align:center;height:44px;padding-top:7px">
+            <img alt="Brand" src="img/boga_panel.jpg" id="brand" style="height:30px;width:auto;"/>
+        </div>
     	<div class="list" id="panelList">
-    		<a class="item" href></a>
-    		<a class="item" ng-href="#/map-search" menu-close >
-    			<i class="icon ion-navigate" ></i> Search Restaurants
-    		</a>
-    		<a class="item" href="#/promotions">
-    			<i class="icon ion-star"></i> Promotions
-    		</a>
-    		<a class="item">
-    			<i class="icon ion-help"></i> Problems & Feedback
-    		</a>
+            <logged ng-hide="logged_in">
+                <a class="item" href="#/login" menu-close>
+                   <div class="panel_icon"><i class="icon ion-person"></i></div> Sign In
+                </a>
+            </logged>
+            <a class="item" ng-href="#/" menu-close >
+                 <div class="panel_icon"><i class="icon ion-navigate"></i></div> Search Restaurants
+            </a>
+            <a class="item" href="#/promotions">
+                <div class="panel_icon"><i class="icon ion-star"></i></div> Promotions
+            </a>
+            <a class="item">
+                <div class="panel_icon"><i class="icon ion-help"></i></div> Problems & Feedback
+            </a>
+            <logged ng-show="logged_in">
+
+                <a class="item" href="#/my-account" menu-close>
+                   <div class="panel_icon"><i class="icon ion-person"></i></div> My Account
+                </a>
+                <a class="item" href="#/my-address" menu-close>
+                    <div class="panel_icon"><i class="icon ion-map"></i></div> Delivery Address
+                </a>
+                <a class="item" href="#/history/" menu-close>
+                    <div class="panel_icon"><i class="icon ion-clock"></i></div> Order History
+                </a>
+            </logged>     		
     	</div>
 
     	<div class="list" id="panelList2">
-    		<a class="item" href="#/cart" menu-close>
+    		<a class="item" href="#/how-to-order" menu-close>
     			How to Order
     		</a>
-    		<a class="item" href="#/promotions">
+    		<a class="item" href="#/faq/" menu-close>
     			FAQ
     		</a>
     		<a class="item">
     			Contact Us
     		</a>
     	</div>
+
+        <div class="button-bar padding" ng-show="logged_in">
+            <button class="button log_out" ng-click="logout()"><i class="icon ion-log-out"></i>   Log Out</button>
+        </div>
     </ion-side-menu>
 </ion-side-menus>
 	
