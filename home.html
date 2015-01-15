@@ -15,7 +15,7 @@
 	</ion-nav-buttons>
 </ion-nav-bar>
 
-<ion-content  style="background-color:#eee">
+<ion-content  style="background-color:#eee;background:url(img/bg.jpg);background-size:cover">
 
 	<div style="width:100%;float:left;text-align:center;margin-top:25px;float:left">
 		<img src="img/boga_logo.png" style="width:200px;"/>
@@ -56,16 +56,18 @@
 			Restaurant</div>
 		</div>
 	</div>
+
 	<div class="find_loc" ng-show="newAddress">
-		or
-		<br/><br/>
+		or		
+	</div>
+
+	<div style="text-align:center;margin-top:25px" ng-show="newAddress">
 		<a class="button button-assertive" ui-sref="location-search" style="background-color:#c41920;font-size:12px;font-weight:bold"><i class="icon ion-marker"></i> Tell us your location</a>
 	</div>
 
 
-
-	<div class="find_loc" style="background-color:transparent">
-		<div style="font-size:12px;font-weight:bold;color:#c41920;">2014. Boga Group</div>
+	<div style="text-align:center;margin-top:25px;background-color:transparent;font-size:12px;font-weight:bold;color:#c41920">
+		2014. Boga Group
 	</div>
 
 </ion-content>

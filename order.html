@@ -59,9 +59,9 @@
     </ion-nav-buttons>
 </ion-nav-bar>
 
-<ion-content style="background-color:#fff">
+<ion-content style="background-color:#fff;">
 
-<div class="bar-subheader" style="padding:0;margin-top:0px">
+<div class="bar-header">
 	<ion-scroll direction="x" style="width:100%;overflow:scroll;white-space:nowrap;height:50px;line-height:50px">
         <div class="nav-cat" ng-repeat="category in menuCategories" ng-class="{active:tab==category.category_id}"> 
     		<a href="" data-toggle="tab" ng-click="loadMenu(category.category_id)">{{category.category_name}} </a>
