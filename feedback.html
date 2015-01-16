@@ -1,0 +1,71 @@
+<ion-view>
+
+<ion-nav-bar class="navbar" align-title="center">
+	<ion-nav-buttons side="left">
+		<button class="button-clear" ng-click="toggleLeft()">
+			<i class="ion-navicon-round icon-header" style="font-size:20px;vertical-align:40%"></i>
+			<img alt="Brand" src="img/boga_icon.png" id="brand" style="height:40px;width:auto;margin-top:-10px"/>
+		</button>
+	</ion-nav-buttons>
+
+	<ion-nav-buttons side="right">
+		<button class="button-clear" ng-click="toHome()">
+			<i class="ion-home icon-header" style="font-size:20px"></i>
+		</button>
+		<button class="button-clear">
+			<i class="ion-star icon-header" style="font-size:20px"></i>
+		</button>
+	</ion-nav-buttons>
+</ion-nav-bar>
+
+<ion-content>
+
+<div class="padding" style="text-align:center;margin-top:15px;color:#bc1e2d" ng-show="success_login">Thank You, your request has been submitted</div>
+
+<div class="padding" style="text-align:center;font-size:16px;margin:16px 0;color:#666" >
+	Stuck with problems<br/> or got feedback about out services?<br/> Feel free to contact us:
+</div>
+
+<div class="list">
+	<form name="support_form" novalidate ng-show="logged_in">
+		<label class="item item-input item-floating-label" >
+	    	<span class="input-label" style="color:#666">Name</span>
+	    	<input type="text" placeholder="Name" ng-model="support.name"/>
+	  	</label>
+	  	<label class="item item-input item-floating-label">
+	    	<span class="input-label" style="color:#666">Email</span>
+	    	<input type="text" placeholder="Email" ng-model="support.email">
+	  	</label>
+	  	<label class="item item-input item-select">
+		    <div class="input-label" style="color:#666">
+		      Category
+		    </div>
+		    <select ng-model="support.type">
+		      <option value="support">Support Request</option>
+		      <option value="feedback">General Feedback</option>
+		      <option value="inquiry">General Inquiry</option>
+		    </select>
+		</label>
+	  	<label class="item item-input item-floating-label">
+	    	<span class="input-label" style="color:#666">Message</span>
+	    	<textarea placeholder="Message" style="height:100px" ng-model="support.message" required></textarea>
+	  	</label>
+
+	  	<div class="padding button-bar">
+	  		<button class="button button-assertive" ng-click="submitSupport(support_form)" ng-disabled="support_form.$invalid">Submit</button>
+	  	</div>
+	</form>
+
+	<div ng-hide="logged_in">
+		<div class="padding" style="text-align:center;font-size:16px;margin:16px 0;color:#666" >
+			Please Login First </br>
+		</div>
+		<div class="padding button-bar">
+			<a href="#/login" class="button button-balanced">Login</a>
+		</div>
+	</div>
+</div>
+
+</ion-content>
+
+</ion-view>

@@ -226,6 +226,10 @@
     cursor: pointer;
 	margin-left:45px;
 }
+.find_nearby:active {
+	background-color:#fff !important;
+	color: #c41920;
+}
 .find_loc {
 	margin-top:15px;
 	width:100%;
@@ -321,6 +325,13 @@ input.ng-pristine.ng-invalid-required.ng-invalid {
 	box-shadow:none;
 }
 input.ng-dirty.ng-invalid {
+	box-shadow:none;
+	border-left:3px solid #f0b840;
+}
+textarea.ng-pristine.ng-invalid-required.ng-invalid {
+	box-shadow:none;
+}
+textarea.ng-dirty.ng-invalid {
 	box-shadow:none;
 	border-left:3px solid #f0b840;
 }

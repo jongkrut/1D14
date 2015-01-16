@@ -6,7 +6,7 @@
 		xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "com.satudelivery.boga"
 		versionCode = "1"
-        version   = "0.1.1">
+        version   = "0.2.1">
 
     <name>Boga Delivery</name>
 
@@ -71,7 +71,7 @@
 		<string>7.0</string>
 	</gap:config-file>
 	
-	<gap:config-file platform="ios" parent="CFBundleVersion"><string>1.6.5</string></gap:config-file>
+	<gap:config-file platform="ios" parent="CFBundleVersion"><string>0.2.1</string></gap:config-file>
 
     <access origin="*"/> <!-- allow local pages -->
 	<access origin="*.pushwoosh.com"/>

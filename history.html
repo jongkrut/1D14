@@ -64,33 +64,37 @@
 		<div class="item" ng-repeat="dt in details.details">
 			<table style="width:100%;font-size:14px">			
 				<tr>
-					<td style="width:10%;font-weight:bold">{{dt.quantity}}x 
-					<td style="width:70%">{{dt.menu_name}} 
-					<td style="width:20%">{{dt.total_price | currency : 'Rp ' : 0}}
+					<td style="width:10%;font-weight:bold">{{dt.quantity}}x</td>
+					<td style="width:70%">{{dt.menu_name}} </td>
+					<td style="width:20%">{{dt.total_price | currency : 'Rp ' : 0}}</td>
+				</tr>
 			</table>
 		</div>
 		<div class="item">
 			<table style="width:100%;font-size:14px">			
 				<tr>
-					<td style="width:10%">&nbsp;
+					<td style="width:10%">&nbsp;</td>
 					<td style="width:90%"><div style="font-weight:bold">Tax & Service Charge</div>
-										  {{details.tax_service_charge | currency : 'Rp ' : 0}} 
+										  {{details.tax_service_charge | currency : 'Rp ' : 0}} </td>
+				</tr>
 			</table>
 		</div>
 		<div class="item">
 			<table style="width:100%;font-size:14px">			
 				<tr>
-					<td style="width:10%">&nbsp;
+					<td style="width:10%">&nbsp;</td>
 					<td style="width:90%"><div style="font-weight:bold">Delivery Fee</div>
-											{{details.delivery_fee | currency : 'Rp ' : 0}} 
+											{{details.delivery_fee | currency : 'Rp ' : 0}} </td>
+				</tr>
 			</table>
 		</div>
 		<div class="item" style="background-color:#e9e9e9;margin-bottom:75px">
 			<table style="width:100%;font-size:18px;font-weight:bold">			
 				<tr>
-					<td style="width:10%">&nbsp;
+					<td style="width:10%">&nbsp;</td>
 					<td style="width:90%">{{details.grandtotal | currency : 'Rp ' : 0}}<br/>
-					<span style="font-size:14px;font-weight:normal;color:#7d7d7d">Grand Total inc. additional fees</span>
+											<span style="font-size:14px;font-weight:normal;color:#7d7d7d">Grand Total inc. additional fees</span></td>
+				</tr>
 			</table>
 		</div>
 	</div>

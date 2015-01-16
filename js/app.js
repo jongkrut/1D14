@@ -81,6 +81,11 @@ app.config(['$stateProvider', function($stateProvider) {
 						url : '/confirmation/:order_id',
 						templateUrl : 'confirmation.html',
 						controller : 'confirmationCtrl'
+	}).state('feedback',{
+						url : '/feedback/',
+						templateUrl : 'feedback.html',
+						controller : 'feedbackCtrl',
+						cache : false
 	}).state('pages', { 
 						url : '/pages/:page',
 						templateUrl : 'faq.html'
@@ -1062,7 +1067,44 @@ app.controller('confirmationCtrl',function($scope,$http,$ionicLoading,$location,
 app.controller('faqCtrl',function($scope,$location,$stateParams,$ionicNavBarDelegate){
 	$scope.section = $stateParams.page;
 	$scope.gozBack = function() {
-		//alert("S");
 		$location.path('#/faq/');
 	};
+});
+
+app.controller('feedbackCtrl',function($scope,$location,$stateParams,Customer,$http){
+	$scope.logged_in = Customer.isLogged();
+	$scope.$on('state.update', function () {
+    	$scope.logged_in = false;
+    });
+    $scope.$on('state.login', function () {
+    	$scope.logged_in = true;
+    });
+	if($scope.logged_in == true)
+	{
+		$scope.customer = Customer.getCustomer();
+		$scope.support = {};
+		$scope.success_login = false;
+		$scope.support.name = $scope.customer.customer_name;
+		$scope.support.email = $scope.customer.customer_email;
+		$scope.support.type = "support";
+
+		$scope.submitSupport = function(form) {
+			$http.defaults.useXDomain = true;
+			$http({
+			    url: url + "/feedback.php",
+			    method: "POST",
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'},
+			    data: $scope.support
+			})
+			.then(function(response) {
+				console.log(response.data);
+
+			});
+
+			form.$setPristine();
+	      	form.$setUntouched();
+			$scope.success_login = true;
+			$scope.support.message = "";
+		};
+	} 
 });
